@@ -10,73 +10,63 @@ import { Card, Typography, Button } from 'antd';
 const { Paragraph, Text } = Typography;
 
 const customizationProps0: ThoughtChainItem = {
-    title: 'Thought Chain Item Title',
-    description: 'description',
-    icon: <CheckCircleOutlined />,
-    extra: <Button type="text" icon={<MoreOutlined />} />,
-    footer: <Button block>Thought Chain Item Footer</Button>,
+    title: 'Team starts. Current period starts.',
+    description: 'description to be added',
+    // icon: <CheckCircleOutlined />, TODO: jiamei ask if we want to have customisable icons
+    extra: <Button block>Add step</Button>,
     content: (
         <Typography>
             <Paragraph>
-                In the process of internal desktop applications development, many different design specs and
-                implementations would be involved, which might cause designers and developers difficulties
-                and duplication and reduce the efficiency of development.
+                TODO: add canvas component here and styling here
             </Paragraph>
         </Typography>
     ),
 };
 
 const customizationProps1: ThoughtChainItem = {
-    title: 'Thought Chain Item Title',
-    description: 'description',
-    icon: <CheckCircleOutlined />,
-    extra: <Button type="text" icon={<MoreOutlined />} />,
-    footer: <Button block>Thought Chain Item Footer</Button>,
+    title: 'Current period ends.',
+    description: 'description to be added',
+    extra: <Button block>Add step</Button>,
     content: (
         <Typography>
+            <Paragraph>
+                TODO: add canvas component here and styling here
+            </Paragraph>
         </Typography>
     ),
 };
 
 const customizationProps2: ThoughtChainItem = {
-    title: 'Thought Chain Item Title',
-    description: 'description',
-    icon: <CheckCircleOutlined />,
-    extra: <Button type="text" icon={<MoreOutlined />} />,
-    footer: <Button block>Thought Chain Item Footer</Button>,
+    title: 'Team is closed. Retention starts.',
+    description: 'description to be added',
+    extra: <Button block>Add step</Button>,
     content: (
         <Typography>
             <Paragraph>
-                In the process of internal desktop applications development, many different design specs and
-                implementations would be involved, which might cause designers and developers difficulties
-                and duplication and reduce the efficiency of development.
-            </Paragraph>
-            <Paragraph>
-                After massive project practice and summaries, Ant Design, a design language for background
-                applications, is refined by Ant UED Team, which aims to{' '}
-                <Text strong>
-                    uniform the user interface specs for internal background projects, lower the unnecessary
-                    cost of design differences and implementation and liberate the resources of design and
-                    front-end development
-                </Text>
+                TODO: add canvas component here and styling here
             </Paragraph>
         </Typography>
     ),
 };
 
+const customizationProps3: ThoughtChainItem = {
+    title: 'Team is destroyed.',
+    description: 'description to be added'
+};
+
 const items: ThoughtChainProps['items'] = [
     {
-        ...customizationProps0,
-        status: 'success',
+        ...customizationProps0
     },
     {
-        ...customizationProps1,
-        status: 'error',
+        ...customizationProps1
     },
     {
-        ...customizationProps2,
-        status: 'pending',
+        ...customizationProps2
     },
+    {
+        ...customizationProps3
+    }
 ];
 
 export default () => (
