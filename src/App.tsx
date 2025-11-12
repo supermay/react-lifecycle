@@ -2,7 +2,6 @@ import React from 'react';
 import './index.css';
 import { ThoughtChain } from '@ant-design/x';
 import type { ThoughtChainProps, ThoughtChainItem } from '@ant-design/x';
-
 import { CheckCircleOutlined, MoreOutlined } from '@ant-design/icons';
 
 import { Card, Typography, Button } from 'antd';
@@ -69,9 +68,11 @@ const items: ThoughtChainProps['items'] = [
     }
 ];
 
-export default () => (
-    // width is the width of the whole view
-    <Card style={{ width: 1000 }}>
-        <ThoughtChain items={items} />
-    </Card>
-);
+export default () => {
+    return (
+        // width is the width of the whole view
+        <Card style={{width: 1000}}>
+            <ThoughtChain items={items}/>
+        </Card>
+    );
+};
