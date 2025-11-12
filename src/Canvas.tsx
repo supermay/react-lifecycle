@@ -46,7 +46,8 @@ const SaveRestore = () => {
             'TB'
         );
 
-        setNodes(layoutedNodes);
+        const fixedNodes = layoutedNodes.map((node) => ({...node, draggable: false}));
+        setNodes(fixedNodes);
         setEdges(layoutedEdges);
     }, []);
 
@@ -79,9 +80,16 @@ const SaveRestore = () => {
             'TB'
         );
 
-        setNodes(layoutedNodes);
+        const fixedNodes = layoutedNodes.map((n) => ({...n, draggable: false}));
+
+        setNodes(fixedNodes);
         setEdges(layoutedEdges);
     };
+
+    const onConnect = useCallback(
+        (params) => setEdges((eds) => addEdge(params, eds)),
+        [setEdges],
+    );
 
     const onAdd = useCallback(() => {
         // relative position
@@ -105,6 +113,7 @@ const SaveRestore = () => {
             style={styles}
             nodes={nodes}
             edges={edges}
+            onConnect={onConnect} // should be automatically connected
             onInit={setRfInstance}
             onNodeClick={onNodeClick}
             // nodesDraggable={false}
