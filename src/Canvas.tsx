@@ -4,9 +4,11 @@ import {addEdge, Background, type Edge, type NodeMouseHandler, ReactFlow, ReactF
 import '@xyflow/react/dist/style.css';
 import {getLayoutedElements} from "./autoLayout.ts";
 import CustomEdgeWithIcon from "./CustomEdgeWithIcon.tsx";
+import StepNode from "./StepNode.tsx";
 
+{/* TODO: jiamei remember to limit connectors for nodes */}
 const initialNodes = [
-    { id: '1', data: { label: 'Node 1' }, position: { x: 0, y: 0 } },
+    { id: '1', data: { label: 'Node 1' }, position: { x: 0, y: 0 }, type: 'stepNode' },
     { id: '2', data: { label: 'Node 2' }, position: { x: 0, y: 0 } },
     { id: '3', data: { label: 'Node 3' }, position: { x: 0, y: 0 } },
     { id: '4', data: { label: 'Node 4' }, position: { x: 0, y: 0 } },
@@ -43,6 +45,10 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
         setNodes(fixedNodes);
         setEdges(layoutedEdges);
     }, []);
+
+    const nodeTypes = {
+        stepNode: StepNode,
+    };
 
     const edgeTypes = {
         customEdgeWithIcon: CustomEdgeWithIcon
@@ -128,6 +134,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
             <ReactFlow
                 style={styles}
                 nodes={nodes}
+                nodeTypes={nodeTypes}
                 edges={edges}
                 edgeTypes={edgeTypes}
                 onConnect={onConnect} // should be automatically connected
