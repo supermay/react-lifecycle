@@ -1,10 +1,9 @@
 import React, {useRef} from 'react';
 import './index.css';
-import { ThoughtChain } from '@ant-design/x';
-import type { ThoughtChainProps, ThoughtChainItem } from '@ant-design/x';
-import { CheckCircleOutlined, MoreOutlined } from '@ant-design/icons';
+import type {ThoughtChainProps} from '@ant-design/x';
+import {ThoughtChain} from '@ant-design/x';
 
-import { Card, Typography, Button } from 'antd';
+import {Button, Card, Typography} from 'antd';
 import Canvas, {type CanvasHandle} from "./Canvas.tsx";
 
 const { Paragraph } = Typography;

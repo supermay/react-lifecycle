@@ -1,14 +1,5 @@
 import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useState} from 'react';
-import {
-    addEdge,
-    Background, type Edge, type NodeMouseHandler,
-    Panel,
-    ReactFlow,
-    ReactFlowProvider,
-    useEdgesState,
-    useNodesState,
-    useReactFlow,
-} from '@xyflow/react';
+import {addEdge, Background, type Edge, type NodeMouseHandler, ReactFlow, ReactFlowProvider,} from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 import {getLayoutedElements} from "./autoLayout.ts";
@@ -107,8 +98,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
         // Run auto-layout
         const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
             updatedNodes,
-            updatedEdges,
-            'TB' // vertical layout
+            updatedEdges
         );
 
         // Apply layouted nodes and edges

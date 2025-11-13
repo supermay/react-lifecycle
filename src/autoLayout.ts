@@ -8,9 +8,8 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 172;
 const nodeHeight = 36;
 
-export const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'TB') => {
-    const isHorizontal = direction === 'LR'; // not used for now
-    dagreGraph.setGraph({ rankdir: direction });
+export const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
+    dagreGraph.setGraph({ rankdir: 'TB' }); // vertical layout by default
 
     nodes.forEach((node) => {
         dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
