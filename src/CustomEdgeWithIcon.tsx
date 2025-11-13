@@ -39,12 +39,14 @@ function CustomEdgeWithIcon({
                         transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
                         pointerEvents: 'all',
                         display: 'flex',
+                        justifyContent: 'space-between',
+                        gap: '4px',
                         alignItems: 'center',
                         background: 'white'
                     }}
                     className="nodrag nopan"
                 >
-                    <ClockCircleOutlined style={{marginRight: 0, color: '#007bff'}} />
+                    <ClockCircleOutlined style={{color: '#007bff'}} />
                     {/* TODO: ask if we want to show the */}
                     {data?.label}
                 </div>

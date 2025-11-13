@@ -14,16 +14,9 @@ const initialNodes = [
 ];
 
 const initialEdges = [
-    { id: 'e1-2', source: '1', target: '2', type: 'customEdgeWithIcon' },
+    { id: 'e1-2', source: '1', target: '2', type: 'customEdgeWithIcon', data: { label: '5 days' } },
     { id: 'e1-3', source: '1', target: '3', type: 'customEdgeWithIcon' },
-    // TODO: jiamei ask if we want size or
     { id: 'e4-5', source: '4', target: '5', type: 'customEdgeWithIcon' }
-    // possible solution for customisablity
-    // label: 'marker size and color',
-    // style: {
-    //     strokeWidth: 2,
-    //     stroke: '#FF0072',
-    // }
 ];
 
 export type CanvasHandle = {
