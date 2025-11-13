@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useState} from 'react';
 import {
     addEdge,
     Background, type Edge, type NodeMouseHandler,
@@ -12,8 +12,6 @@ import {
 
 import '@xyflow/react/dist/style.css';
 import {getLayoutedElements} from "./autoLayout.ts";
-
-const flowKey = 'example-flow';
 
 const getNodeId = () => `randomnode_${+new Date()}`;
 
@@ -31,13 +29,18 @@ const initialEdges = [
     { id: 'e4-5', source: '4', target: '5' }
 ];
 
-const SaveRestore = () => {
-    // const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    // const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+export type CanvasHandle = {
+    addNode: () => void; // function parent can call
+};
+
+type CanvasProps = { // input for this component
+    backgroundColor?: string;
+};
+
+const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) => {
     const [nodes, setNodes] = useState<Node[]>([]);
     const [edges, setEdges] = useState<Edge[]>([]);
-    const [rfInstance, setRfInstance] = useState(null);
-    const { setViewport } = useReactFlow(); // TODO: check the viewPort use case
+    const [, setRfInstance] = useState(null);
 
     useEffect(() => {
         const {nodes: layoutedNodes, edges: layoutedEdges} = getLayoutedElements(
@@ -92,46 +95,55 @@ const SaveRestore = () => {
     );
 
     const onAdd = useCallback(() => {
-        // relative position
         const newNode = {
             id: getNodeId(),
             data: { label: 'Added node' },
-            position: { x: 0, y: 0 }
+            position: { x: 0, y: 0 },
         };
-        // this should trigger autoLayout
-        setNodes((nds) => nds.concat(newNode));
-    }, [setNodes]);
+
+        const updatedNodes = [...nodes, newNode];
+        const updatedEdges = [...edges];
+
+        // Run auto-layout
+        const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+            updatedNodes,
+            updatedEdges,
+            'TB' // vertical layout
+        );
+
+        // Apply layouted nodes and edges
+        setNodes(layoutedNodes.map((n) => ({ ...n, draggable: false })));
+        setEdges(layoutedEdges);
+    }, [nodes, edges, setNodes, setEdges]);
 
     // for background color setting
     const styles = {
-        background: 'yellow',
+        background: backgroundColor ?? 'yellow',
         width: '100%'
     };
 
-    return (
-        <ReactFlow
-            style={styles}
-            nodes={nodes}
-            edges={edges}
-            onConnect={onConnect} // should be automatically connected
-            onInit={setRfInstance}
-            onNodeClick={onNodeClick}
-            // nodesDraggable={false}
-            // fitView TODO: jiamei check if we need this option or better not?
-            fitViewOptions={{ padding: 2 }}
-        >
-            <Background />
-            <Panel position="top-right">
-                <button className="xy-theme__button" onClick={onAdd}>
-                    add parent node
-                </button>
-            </Panel>
-        </ReactFlow>
-    );
-};
+    // expose addNode() to parent
+    useImperativeHandle(ref, () => ({
+        addNode() {
+            onAdd();
+        }
+    }));
 
-export default () => (
-    <ReactFlowProvider>
-        <SaveRestore />
-    </ReactFlowProvider>
-);
+    return (
+        <ReactFlowProvider>
+            <ReactFlow
+                style={styles}
+                nodes={nodes}
+                edges={edges}
+                onConnect={onConnect} // should be automatically connected
+                onInit={setRfInstance}
+                onNodeClick={onNodeClick}
+                fitViewOptions={{ padding: 2 }}>
+                <Background />
+            </ReactFlow>
+        </ReactFlowProvider>
+    );
+});
+
+// Named export
+export default Canvas;

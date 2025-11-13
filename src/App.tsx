@@ -1,78 +1,69 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import './index.css';
 import { ThoughtChain } from '@ant-design/x';
 import type { ThoughtChainProps, ThoughtChainItem } from '@ant-design/x';
 import { CheckCircleOutlined, MoreOutlined } from '@ant-design/icons';
 
 import { Card, Typography, Button } from 'antd';
+import Canvas, {type CanvasHandle} from "./Canvas.tsx";
 
-const { Paragraph, Text } = Typography;
+const { Paragraph } = Typography;
 
-const customizationProps0: ThoughtChainItem = {
-    title: 'Team starts. Current period starts.',
-    description: 'description to be added',
-    // icon: <CheckCircleOutlined />, TODO: jiamei ask if we want to have customisable icons
-    extra: <Button block>Add step</Button>,
-    content: (
-        <Typography>
-            <Paragraph>
-                TODO: add canvas component here and styling here
-            </Paragraph>
-        </Typography>
-    ),
-};
+const LifeCycleOverview = () => {
+    const canvasRef = useRef<CanvasHandle>(null);
 
-const customizationProps1: ThoughtChainItem = {
-    title: 'Current period ends.',
-    description: 'description to be added',
-    extra: <Button block>Add step</Button>,
-    content: (
-        <Typography>
-            <Paragraph>
-                TODO: add canvas component here and styling here
-            </Paragraph>
-        </Typography>
-    ),
-};
+    const items: ThoughtChainProps['items'] = [
+        {
+            title: 'Team created.',
+            description: 'description to be added'
+        },
+        {
+            title: 'Current period starts.',
+            description: 'description to be added',
+            // icon: <CheckCircleOutlined />, TODO: jiamei ask if we want to have customisable icons
+            extra: <Button block>Add step</Button>,
+            content: (
+                <Typography>
+                    <Paragraph>
+                        TODO: add canvas component here and styling here
+                    </Paragraph>
+                </Typography>
+            )
+        },
+        {
+            title: 'Current period ends.',
+            description: 'description to be added',
+            extra:  <Button block onClick={() => canvasRef.current?.addNode()}>Add step</Button>,
+            content: (
+                <div className={"wrapper"}>
+                    <Canvas ref={canvasRef} backgroundColor={'lightyellow'} />
+                </div>
+            )
+        },
+        {
+            title: 'Team is closed. Retention starts.',
+            description: 'description to be added',
+            extra: <Button block>Add step</Button>,
+            content: (
+                <Typography>
+                    <Paragraph>
+                        TODO: add canvas component here and styling here
+                    </Paragraph>
+                </Typography>
+            ),
+        },
+        {
+            title: 'Team destroyed.',
+            description: 'description to be added'
+        }
+    ];
 
-const customizationProps2: ThoughtChainItem = {
-    title: 'Team is closed. Retention starts.',
-    description: 'description to be added',
-    extra: <Button block>Add step</Button>,
-    content: (
-        <Typography>
-            <Paragraph>
-                TODO: add canvas component here and styling here
-            </Paragraph>
-        </Typography>
-    ),
-};
-
-const customizationProps3: ThoughtChainItem = {
-    title: 'Team is destroyed.',
-    description: 'description to be added'
-};
-
-const items: ThoughtChainProps['items'] = [
-    {
-        ...customizationProps0
-    },
-    {
-        ...customizationProps1
-    },
-    {
-        ...customizationProps2
-    },
-    {
-        ...customizationProps3
-    }
-];
-
-export default () => {
     return (
         // width is the width of the whole view
         <Card style={{width: 1000}}>
-            <ThoughtChain items={items}/>
+            <ThoughtChain items={items} />
         </Card>
     );
-};
+}
+
+export default LifeCycleOverview;

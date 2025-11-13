@@ -68,6 +68,6 @@ button:focus-visible {
 }
 
 .wrapper {
-    height: 800px;
-    width: 800px;
+    height: 300px;
+    width: 960px; // 1000px - 20px * 2
 }
