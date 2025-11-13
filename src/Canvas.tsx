@@ -93,7 +93,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
         const newNodeId = (nodes.length + 1).toString();
 
         const newNode = {
-            id: newNodeId(),
+            id: newNodeId,
             data: {label: `Node ${newNodeId}`},
             position: { x: 0, y: 0 },
         };
