@@ -67,6 +67,7 @@ button:focus-visible {
   }
 }
 
+/* wrapper styling for the canvas */
 .wrapper {
     height: 300px;
     width: 960px; // 1000px - 20px * 2

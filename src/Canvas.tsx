@@ -3,8 +3,7 @@ import {addEdge, Background, type Edge, type NodeMouseHandler, ReactFlow, ReactF
 
 import '@xyflow/react/dist/style.css';
 import {getLayoutedElements} from "./autoLayout.ts";
-
-const getNodeId = () => `randomnode_${+new Date()}`;
+import CustomEdge from "./CustomEdge.tsx";
 
 const initialNodes = [
     { id: '1', data: { label: 'Node 1' }, position: { x: 0, y: 0 } },
@@ -18,6 +17,12 @@ const initialEdges = [
     { id: 'e1-2', source: '1', target: '2' },
     { id: 'e1-3', source: '1', target: '3' },
     { id: 'e4-5', source: '4', target: '5' }
+    // possible solution for customisablity
+    // label: 'marker size and color',
+    // style: {
+    //     strokeWidth: 2,
+    //     stroke: '#FF0072',
+    // }
 ];
 
 export type CanvasHandle = {
@@ -34,10 +39,10 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
     const [, setRfInstance] = useState(null);
 
     useEffect(() => {
+        // TODO: write reusable functions for layoutedNotes and layoutedEdges
         const {nodes: layoutedNodes, edges: layoutedEdges} = getLayoutedElements(
             initialNodes,
-            initialEdges,
-            'TB'
+            initialEdges
         );
 
         const fixedNodes = layoutedNodes.map((node) => ({...node, draggable: false}));
@@ -50,11 +55,11 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
     const onNodeClick: NodeMouseHandler = (event, node) => {
         const newNodeId = (nodes.length + 1).toString();
 
-        // this should open a popup
+        // TODO: this should open a popup
         const newNode: Node = {
             id: newNodeId,
             data: {label: `Node ${newNodeId}`},
-            position: {x: 0, y: 0},
+            position: {x: 0, y: 0}, // position doesnt matter, we use auto layout
             draggable: false,
         };
 
@@ -70,8 +75,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
 
         const {nodes: layoutedNodes, edges: layoutedEdges} = getLayoutedElements(
             updatedNodes,
-            updatedEdges,
-            'TB'
+            updatedEdges
         );
 
         const fixedNodes = layoutedNodes.map((n) => ({...n, draggable: false}));
@@ -86,9 +90,11 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
     );
 
     const onAdd = useCallback(() => {
+        const newNodeId = (nodes.length + 1).toString();
+
         const newNode = {
-            id: getNodeId(),
-            data: { label: 'Added node' },
+            id: newNodeId(),
+            data: {label: `Node ${newNodeId}`},
             position: { x: 0, y: 0 },
         };
 
@@ -125,6 +131,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
                 style={styles}
                 nodes={nodes}
                 edges={edges}
+                edgeTypes={CustomEdge}
                 onConnect={onConnect} // should be automatically connected
                 onInit={setRfInstance}
                 onNodeClick={onNodeClick}
