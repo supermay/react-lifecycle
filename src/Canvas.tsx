@@ -3,7 +3,7 @@ import {addEdge, Background, type Edge, type NodeMouseHandler, ReactFlow, ReactF
 
 import '@xyflow/react/dist/style.css';
 import {getLayoutedElements} from "./autoLayout.ts";
-import CustomEdge from "./CustomEdge.tsx";
+import CustomEdgeWithIcon from "./CustomEdgeWithIcon.tsx";
 
 const initialNodes = [
     { id: '1', data: { label: 'Node 1' }, position: { x: 0, y: 0 } },
@@ -14,9 +14,10 @@ const initialNodes = [
 ];
 
 const initialEdges = [
-    { id: 'e1-2', source: '1', target: '2' },
-    { id: 'e1-3', source: '1', target: '3' },
-    { id: 'e4-5', source: '4', target: '5' }
+    { id: 'e1-2', source: '1', target: '2', type: 'customEdgeWithIcon' },
+    { id: 'e1-3', source: '1', target: '3', type: 'customEdgeWithIcon' },
+    // TODO: jiamei ask if we want size or
+    { id: 'e4-5', source: '4', target: '5', type: 'customEdgeWithIcon' }
     // possible solution for customisablity
     // label: 'marker size and color',
     // style: {
@@ -50,6 +51,9 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
         setEdges(layoutedEdges);
     }, []);
 
+    const edgeTypes = {
+        customEdgeWithIcon: CustomEdgeWithIcon
+    };
 
     // Handle node click
     const onNodeClick: NodeMouseHandler = (event, node) => {
@@ -68,6 +72,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
             source: node.id,
             target: newNodeId,
             animated: true,
+            type: 'customEdgeWithIcon'
         };
 
         const updatedNodes = [...nodes, newNode];
@@ -131,7 +136,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
                 style={styles}
                 nodes={nodes}
                 edges={edges}
-                edgeTypes={CustomEdge}
+                edgeTypes={edgeTypes}
                 onConnect={onConnect} // should be automatically connected
                 onInit={setRfInstance}
                 onNodeClick={onNodeClick}
