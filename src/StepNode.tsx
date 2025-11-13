@@ -1,45 +1,43 @@
 import {Handle, Position} from "@xyflow/react";
+import {RedoOutlined, CopyOutlined} from '@ant-design/icons';
+import {Actions} from "@ant-design/x";
 import {Card} from "antd";
 import Meta from "antd/es/card/Meta";
-import {EllipsisOutlined, SettingOutlined, EditOutlined} from '@ant-design/icons';
 
-const actions: React.ReactNode[] = [
-    <EditOutlined key="edit" text="Add child node" />,
-    <SettingOutlined key="setting" />,
+const actionItems = [
+    {
+        key: 'retry',
+        icon: <RedoOutlined />,
+        label: 'Retry',
+    },
+    {
+        key: 'copy',
+        icon: <CopyOutlined />,
+        label: 'Copy',
+    },
 ];
 
 function StepNode(props) {
+    console.log('props: ', props);
     return (
-        <div className="step-node">
-            {/* TODO: jiamei check if we want to have card loading function... depends on the existing setup */}
-            <Card style={{ width: 172 }} size={"small"} actions={actions}>
-                <Meta description="www.instagram.com" />
+        <div>
+            {/* fix should be connectable or not */}
+            <Handle
+                type="target"
+                position={Position.Top}
+                onConnect={(params) => console.log('handle onConnect', params)}
+                isConnectable={false}
+            />
+            <Card>
+                <Meta description={props.data.label} />
+                {/* this should be card with two actions */}
+                {/*<Actions items={actionItems} onClick={console.log} />*/}
             </Card>
-            {/*<Card actions={actions} style={{ width: 200 }} size={"small"}>*/}
-            {/*    <Card.Meta*/}
-            {/*        title="Card title"*/}
-            {/*        description={*/}
-            {/*            <>*/}
-            {/*                <p>This is the description</p>*/}
-            {/*            </>*/}
-            {/*        }*/}
-            {/*    />*/}
-            {/*</Card>*/}
-            <Handle type="target" position={Position.Top} />
-            <Handle type="source" position={Position.Bottom} id="a" />
-            <Handle type="source" position={Position.Bottom} id="b" />
+            <Handle
+                type="source"
+                position={Position.Bottom}
+            />
         </div>
-        // <>
-        //     <Card
-        //         title="Card"
-        //         size="small"
-        //         actions={[
-        //             <SettingOutlined key="setting" />,
-        //             <EditOutlined key="edit" />,
-        //         ]}
-        //     >
-        //     </Card>
-        // </>
     );
 }
 

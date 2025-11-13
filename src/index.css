@@ -72,3 +72,17 @@ button:focus-visible {
     height: 300px;
     width: 960px; // 1000px - 20px * 2
 }
+
+/* Node stepNode */
+.react-flow__node-stepNode {
+    background: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.react-flow__node-stepNode:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 8px rgba(59,130,246,0.3);
+}

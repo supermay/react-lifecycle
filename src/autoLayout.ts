@@ -5,8 +5,8 @@ import type {Edge, Node} from "@xyflow/react";
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 172;
-const nodeHeight = 36;
+const nodeWidth = 300;
+const nodeHeight = 60;
 
 export const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
     dagreGraph.setGraph({ rankdir: 'TB' }); // vertical layout by default
