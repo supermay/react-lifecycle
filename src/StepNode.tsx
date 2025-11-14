@@ -14,8 +14,8 @@ function StepNode(props) {
                 <Row className="card-actions" justify="end">
                     <Space size="small">
                         {/* should trigger a popup */}
-                        <Button type="default" onClick={() => props.onClick(props)}>Add step</Button>
-                        <Button icon={<DeleteFilled />}></Button>
+                        <Button type="default" onClick={() => props.onAddChildNodeClick(props)}>Add step</Button>
+                        <Button icon={<DeleteFilled />} onClick={() => props.onDeleteClick(props)}></Button>
                     </Space>
                 </Row>
             </Space>

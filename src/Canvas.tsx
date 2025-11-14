@@ -51,16 +51,19 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
 
     const nodeTypes = useMemo(() => ({
         stepNode: (props: NodeProps) => (
-            <StepNode {...props} onClick={() => onAddChildNode(props)} />
+            <StepNode {...props}
+                      onDeleteClick={() => deleteNode(props) }
+                      onAddChildNodeClick={() => addChildNode(props)}
+            />
         )
-    }), [nodes]);
+    }), [nodes, edges]);
 
     const edgeTypes = {
         customEdgeWithIcon: CustomEdgeWithIcon
     };
 
     // Handle node click
-    const onAddChildNode: (node: NodeProps) => void = (node) => {
+    const addChildNode: (node: NodeProps) => void = (node) => {
         const newNodeId = (nodes.length + 1).toString();
 
         // TODO: this should open a popup
@@ -93,10 +96,20 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
         setEdges(layoutedEdges);
     };
 
-    const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [setEdges],
-    );
+    const deleteNode: (props: NodeProps) => void = (props) => {
+        // TODO: check if there are any child
+        // if so, show cannot delete popup
+        // if not, show confirmation delete popup
+
+        const childExists = edges.some(edge => edge.source === props.id);
+        if (childExists) {
+            // use ant design popup here but how 
+            alert("Cannot delete node with children. Remove children first.");
+            return;
+        } else {
+            alert('to do')
+        }
+    }
 
     const onAdd = useCallback(() => {
         const newNodeId = (nodes.length + 1).toString();
