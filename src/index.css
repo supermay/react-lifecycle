@@ -73,7 +73,7 @@ button:focus-visible {
     width: 960px; // 1000px - 20px * 2
 }
 
-/* Node stepNode */
+/* Node stepNode, so magic here is -stepNode needs to match */
 .react-flow__node-stepNode {
     background: #f9fafb;
     border: 1px solid #d1d5db;

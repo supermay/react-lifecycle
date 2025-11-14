@@ -1,4 +1,4 @@
-import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useState} from 'react';
+import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState} from 'react';
 import {addEdge, Background, type Edge, type NodeMouseHandler, ReactFlow, ReactFlowProvider,} from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
@@ -6,14 +6,15 @@ import {getLayoutedElements} from "./autoLayout.ts";
 import CustomEdgeWithIcon from "./CustomEdgeWithIcon.tsx";
 import StepNode from "./StepNode.tsx";
 import 'reactflow/dist/style.css';
+import type {NodeProps} from "reactflow";
 
 {/* TODO: jiamei remember to limit connectors for nodes */}
 const initialNodes = [
-    { id: '1', data: { label: 'Node 1' }, position: { x: 0, y: 0 }, type: 'stepNode' },
-    { id: '2', data: { label: 'Node 2' }, position: { x: 0, y: 0 }, type: 'stepNode' },
-    { id: '3', data: { label: 'Node 3' }, position: { x: 0, y: 0 }, type: 'stepNode' },
-    { id: '4', data: { label: 'Node 4' }, position: { x: 0, y: 0 }, type: 'stepNode' },
-    { id: '5', data: { label: 'Node 5' }, position: { x: 0, y: 0 }, type: 'stepNode' },
+    { id: '1', data: { label: 'Node 1' }, type: 'stepNode' },
+    { id: '2', data: { label: 'Node 2' }, type: 'stepNode' },
+    { id: '3', data: { label: 'Node 3' }, type: 'stepNode' },
+    { id: '4', data: { label: 'Node 4' }, type: 'stepNode' },
+    { id: '5', data: { label: 'Node 5' }, type: 'stepNode' },
 ];
 
 const initialEdges = [
@@ -47,23 +48,25 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
         setEdges(layoutedEdges);
     }, []);
 
-    const nodeTypes = {
-        stepNode: StepNode,
-    };
+
+    const nodeTypes = useMemo(() => ({
+        stepNode: (props: NodeProps) => (
+            <StepNode {...props} onClick={() => onAddChildNode(props)} />
+        )
+    }), [nodes]);
 
     const edgeTypes = {
         customEdgeWithIcon: CustomEdgeWithIcon
     };
 
     // Handle node click
-    const onNodeClick: NodeMouseHandler = (event, node) => {
+    const onAddChildNode: (node: NodeProps) => void = (node) => {
         const newNodeId = (nodes.length + 1).toString();
 
         // TODO: this should open a popup
         const newNode: Node = {
             id: newNodeId,
             data: {label: `Node ${newNodeId}`},
-            position: {x: 0, y: 0}, // position doesnt matter, we use auto layout
             draggable: false,
             type: 'stepNode'
         };
@@ -101,7 +104,6 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
         const newNode = {
             id: newNodeId,
             data: {label: `Node ${newNodeId}`},
-            position: { x: 0, y: 0 },
             type: 'stepNode'
         };
 
@@ -140,9 +142,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>(({backgroundColor}, ref) =>
                 nodeTypes={nodeTypes}
                 edges={edges}
                 edgeTypes={edgeTypes}
-                onConnect={onConnect} // should be automatically connected
                 onInit={setRfInstance}
-                onNodeClick={onNodeClick}
                 fitViewOptions={{ padding: 2 }}>
                 <Background />
             </ReactFlow>
