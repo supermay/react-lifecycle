@@ -18,8 +18,8 @@ export const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
     edges.forEach((edge) => {
         dagreGraph.setEdge(edge.source, edge.target);
     });
-
-    dagre.layout(dagreGraph);
+    
+    dagre.layout(dagreGraph, {disableOptimalOrderHeuristic: true}); // so the order of the nodes is not changed
 
     const layoutedNodes = nodes.map((node) => {
         const nodeWithPosition = dagreGraph.node(node.id);
